@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
+import ModeToggle from "./ModeToggle";
 
 export function Navbar({ className }: { className?: string }) {
   return (
@@ -26,6 +27,7 @@ export function Navbar({ className }: { className?: string }) {
         </div>
         <div className="flex flex-1 items-center justify-between space-x-2 md:justify-end">
           <nav className="flex items-center space-x-6">
+            <ModeToggle />
             <Link
               href="/"
               className="text-sm font-medium transition-colors hover:text-primary"
