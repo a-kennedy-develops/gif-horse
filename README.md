@@ -1,11 +1,11 @@
-## Development Status
+## Development Status 🐎
 
 GIF Horse is currently in active development. Key features being worked on:
 
 - GIF creation from video files
 - Frame-by-frame GIF editing
 
-## Tech Stack
+## Tech Stack 🐎
 
 - [Next.js 14](https://nextjs.org/)
 - [TypeScript](https://www.typescriptlang.org/)
@@ -13,7 +13,7 @@ GIF Horse is currently in active development. Key features being worked on:
 - [Clerk Authentication](https://clerk.com/)
 - [Shadcn/ui](https://ui.shadcn.com/)
 
-## Getting Started
+## Getting Started 🐎
 
 First, install the dependencies:
 
@@ -46,7 +46,7 @@ pnpm dev
 bun dev
 ```
 
-## Contributing
+## Contributing 🐎
 
 While GIF Horse is currently in development, feedback and contributions are welcome! Feel free to open issues or submit pull requests.
 
