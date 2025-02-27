@@ -1,4 +1,7 @@
-export default function Home() {
+import { currentUser } from "@clerk/nextjs/server";
+
+export default async function Home() {
+  const user = await currentUser();
   return (
     <div className="grid grid-rows-[1fr] p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
       <main className="flex flex-col gap-8 items-center text-center max-w-3xl mx-auto">
@@ -10,6 +13,13 @@ export default function Home() {
             GIF Horse is currently under development. Soon you&apos;ll be able
             to create, edit, and share GIFs directly in your browser.
           </p>
+
+          {user && (
+            <p className="text-lg text-muted-foreground">
+              Welcome, {user.firstName}! Remember, never look a GIF horse in the
+              mouth 🐎 😉
+            </p>
+          )}
         </div>
 
         <div className="flex gap-4 items-center flex-col sm:flex-row">

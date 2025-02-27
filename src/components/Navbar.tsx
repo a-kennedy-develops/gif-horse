@@ -11,6 +11,9 @@ import {
   SheetTitle,
 } from "@/components/shadcn/sheet";
 import { useResponsiveMenu } from "@/hooks/useResponsiveMenu";
+import { SignInButton, SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
+import { Button } from "./shadcn/button";
+import { useUser } from "@clerk/nextjs";
 
 export const NavBrand = () => (
   <Link href="/" className="flex items-center space-x-2">
@@ -26,34 +29,45 @@ export const NavBrand = () => (
   </Link>
 );
 
-const NavItems = () => (
-  <>
-    <Link
-      href="/"
-      className="text-sm font-medium transition-colors hover:text-primary relative group"
-    >
-      Create
-      <span className="absolute inset-x-0 -bottom-1 h-0.5 bg-primary transform scale-x-0 transition-transform group-hover:scale-x-100" />
-    </Link>
-    <Link
-      href="/"
-      className="text-sm font-medium transition-colors hover:text-primary relative group"
-    >
-      Edit
-      <span className="absolute inset-x-0 -bottom-1 h-0.5 bg-primary transform scale-x-0 transition-transform group-hover:scale-x-100" />
-    </Link>
-    <Link
-      href="/"
-      className="text-sm font-medium transition-colors hover:text-primary relative group"
-    >
-      Login
-      <span className="absolute inset-x-0 -bottom-1 h-0.5 bg-primary transform scale-x-0 transition-transform group-hover:scale-x-100" />
-    </Link>
-  </>
-);
-
 export function Navbar({ className }: { className?: string }) {
+  const { user, isLoaded } = useUser();
   const { open, setOpen } = useResponsiveMenu();
+
+  const NavItems = () => (
+    <>
+      <Link
+        href="/"
+        className="text-sm font-medium transition-colors hover:text-primary relative group"
+      >
+        Create
+        <span className="absolute inset-x-0 -bottom-1 h-0.5 bg-primary transform scale-x-0 transition-transform group-hover:scale-x-100" />
+      </Link>
+      <Link
+        href="/"
+        className="text-sm font-medium transition-colors hover:text-primary relative group"
+      >
+        Edit
+        <span className="absolute inset-x-0 -bottom-1 h-0.5 bg-primary transform scale-x-0 transition-transform group-hover:scale-x-100" />
+      </Link>
+      {/* Show placeholder during loading, hide if not logged in */}
+      {(!isLoaded || user) && (
+        <Link
+          href="/"
+          className={cn(
+            "text-sm font-medium transition-all duration-200 hover:text-primary relative group",
+            !isLoaded && "opacity-50"
+          )}
+        >
+          Settings
+          <span className="absolute inset-x-0 -bottom-1 h-0.5 bg-primary transform scale-x-0 transition-transform group-hover:scale-x-100" />
+        </Link>
+      )}
+    </>
+  );
+
+  const AuthPlaceholder = () => (
+    <div className="w-9 h-9 rounded-full bg-muted animate-pulse" />
+  );
 
   return (
     <>
@@ -67,8 +81,28 @@ export function Navbar({ className }: { className?: string }) {
           <NavBrand />
 
           <div className="flex-1 flex justify-end items-center">
-            <div className="flex items-center space-x-4">
+            <div className="flex items-center xs:space-x-2 space-x-4">
+              <div className="hidden md:flex items-center space-x-6">
+                <NavItems />
+              </div>
+
               <ModeToggle />
+              <div className="min-w-[36px] flex justify-center">
+                {!isLoaded ? (
+                  <AuthPlaceholder />
+                ) : (
+                  <>
+                    <SignedIn>
+                      <UserButton afterSignOutUrl="/" />
+                    </SignedIn>
+                    <SignedOut>
+                      <SignInButton mode="modal">
+                        <Button variant="default">Sign In</Button>
+                      </SignInButton>
+                    </SignedOut>
+                  </>
+                )}
+              </div>
 
               {/* Mobile Menu */}
               <Sheet open={open} onOpenChange={setOpen}>
@@ -98,10 +132,6 @@ export function Navbar({ className }: { className?: string }) {
                   </div>
                 </SheetContent>
               </Sheet>
-
-              <div className="hidden md:flex items-center space-x-6 mr-4">
-                <NavItems />
-              </div>
             </div>
           </div>
         </div>
