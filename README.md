@@ -50,7 +50,7 @@ bun dev
 
 While GIF Horse is currently in development, feedback and contributions are welcome! Feel free to open issues or submit pull requests.
 
-## Contact
+## Contact 🐎
 
 For questions about the project or to request environment variables, please contact:
 
